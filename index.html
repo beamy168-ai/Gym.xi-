@@ -108,16 +108,26 @@ section.pane{padding:96px 0;}
 @media(max-width:640px){ section.pane{padding:64px 0;} }
 
 /* ---------- LANDING: HERO ---------- */
+  .hero {
+   
+    min-height: 100vh;
+
+    background-image: url("your-image.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .hero{
   position:relative;
-  min-height:100svh;
+  width: 100%;
+  min-height:100vh;
   padding:100px 0 70px;
   overflow:hidden;
   border-bottom:1px solid var(--panel-line);
 
   background-image:url('jnd.png');
   background-size:cover;
-  background-position:center center;
+  background-position:center;
   background-repeat:no-repeat;}
 .hero .wrap{position:relative; z-index:2;}
 .eyebrow-line{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; color:var(--brass-light); text-transform:uppercase; margin-bottom:22px; display:flex; align-items:center; gap:10px;}
