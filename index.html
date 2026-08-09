@@ -108,7 +108,17 @@ section.pane{padding:96px 0;}
 @media(max-width:640px){ section.pane{padding:64px 0;} }
 
 /* ---------- LANDING: HERO ---------- */
-.hero{position:relative; padding:100px 0 70px; overflow:hidden; border-bottom:1px solid var(--panel-line);}
+.hero{
+  position:relative;
+  min-height:100vh;
+  padding:100px 0 70px;
+  overflow:hidden;
+  border-bottom:1px solid var(--panel-line);
+
+  background-image:url('jnd.png');
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;}
 .hero .wrap{position:relative; z-index:2;}
 .eyebrow-line{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; color:var(--brass-light); text-transform:uppercase; margin-bottom:22px; display:flex; align-items:center; gap:10px;}
 .eyebrow-line::before{content:''; width:26px; height:1px; background:var(--brass);}
@@ -343,7 +353,29 @@ tr:first-child td{border-top:none;}
 .preview-nav button.current{border-color:var(--brass); color:var(--brass-light);}
 .preview-nav .pv-toggle{position:absolute; top:-14px; right:-10px; width:26px; height:26px; border-radius:50%; background:var(--brass); color:var(--ink); border:none; font-size:.8rem;}
 .preview-nav.collapsed .pv-label, .preview-nav.collapsed .pv-grid{display:none;}
+/* ===== RESPONSIVE HERO BACKGROUND ===== */
 
+.hero{
+  background-size:cover;
+  background-position:center center;
+}
+
+/* Tablets */
+@media (max-width: 900px){
+  .hero{
+    min-height:100vh;
+    background-position:center center;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px){
+  .hero{
+    min-height:100svh;
+    background-position:center center;
+    background-size:cover;
+  }
+}
 </style>
 </head>
 <body>
@@ -366,14 +398,7 @@ tr:first-child td{border-top:none;}
 <main id="app">
 
   <!-- ============ LANDING ============ -->
-  <section class="page" id="page-landing" data-page="landing" style= "
-    width: 100%;
-    min-height: 100vh;
-
-    background-image: url('jnd.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;">
+  <section class="page" id="page-landing" data-page="landing">
 
     <div class="hero">
       <div class="wrap">
@@ -431,6 +456,79 @@ tr:first-child td{border-top:none;}
       </div>
     </section>
 
+    <!-- ============ PROGRAMS PAGE ============ -->
+<section class="page" id="page-programs" data-page="programs-page" hidden>
+
+    <div class="pane">
+        <div class="wrap">
+
+            <div class="sec-head">
+                <div class="eyebrow-line">IRON HOUR PROGRAMS</div>
+
+                <h2>Train with purpose</h2>
+
+                <p>
+                    Choose the training system that matches your goals.
+                    Every program is designed around progressive overload,
+                    recovery and measurable results.
+                </p>
+            </div>
+
+            <div class="grid-3">
+
+                <div class="card">
+                    <div class="num">01</div>
+                    <h3>Strength Systems</h3>
+                    <p>
+                        Build serious strength through structured squat,
+                        bench, deadlift and pressing programs.
+                    </p>
+
+                    <button class="btn btn-brass">
+                        View program
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="num">02</div>
+                    <h3>Metabolic Conditioning</h3>
+                    <p>
+                        Improve your conditioning through sled work,
+                        intervals and barbell complexes.
+                    </p>
+
+                    <button class="btn btn-brass">
+                        View program
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="num">03</div>
+                    <h3>Mobility & Recovery</h3>
+                    <p>
+                        Improve movement, flexibility and recovery
+                        while keeping your training sustainable.
+                    </p>
+
+                    <button class="btn btn-brass">
+                        View program
+                    </button>
+                </div>
+
+            </div>
+
+            <br><br>
+
+            <button class="btn btn-outline" data-goto="landing">
+                ← Back to home
+            </button>
+
+        </div>
+    </div>
+
+</section>
+
+    
     <section class="pane" id="membership" style="border-top:1px solid var(--panel-line);">
       <div class="wrap">
         <div class="sec-head reveal">
