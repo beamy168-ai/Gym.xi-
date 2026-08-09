@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRON HOUR — Strength Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============ TOKENS ============ */
+:root{
+  --ink:#14130f;
+  --ink-soft:#1c1b15;
+  --panel:#201f18;
+  --panel-line:#332f24;
+  --concrete:#8c8577;
+  --concrete-light:#c9c3b6;
+  --paper:#f2ede2;
+  --paper-dim:#d9d3c4;
+  --brass:#c08a3e;
+  --brass-light:#e0ab5c;
+  --steel:#3a3f3d;
+
+  /* real bumper-plate colors, used as the loyalty tier scale */
+  --p10:#4f8a53;   /* 10kg green  — Tier 1 */
+  --p15:#e0c23a;   /* 15kg yellow — Tier 2 */
+  --p20:#3f7aa8;   /* 20kg blue   — Tier 3 */
+  --p25:#b23b30;   /* 25kg red    — Tier 4 */
+
+  --display: 'Oswald', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+
+  --ease: cubic-bezier(.22,.68,.16,1);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--body);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.eyebrow{font-family:var(--display); text-transform:uppercase; letter-spacing:.02em; margin:0;}
+p{margin:0;}
+a{color:inherit;}
+button{font-family:var(--body); cursor:pointer;}
+::selection{background:var(--brass); color:var(--ink);}
+:focus-visible{outline:2px solid var(--brass-light); outline-offset:3px;}
+
+.wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+@media (max-width:640px){ .wrap{padding:0 20px;} }
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+}
+
+/* ============ REVEAL / STAGGER ============ */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s var(--ease), transform .6s var(--ease); transition-delay:calc(var(--i,0) * 80ms);}
+.reveal.is-in{opacity:1; transform:none;}
+
+/* ============ TOP NAV ============ */
+.topnav{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 32px;
+  background:rgba(20,19,15,.88);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--panel-line);
+}
+.logo{
+  font-family:var(--display); font-weight:700; font-size:1.15rem;
+  letter-spacing:.14em; color:var(--paper); text-decoration:none;
+  display:flex; align-items:center; gap:10px;
+}
+.logo .bar{width:22px; height:3px; background:var(--brass); border-radius:2px;}
+.nav-links{display:flex; align-items:center; gap:30px; list-style:none; margin:0; padding:0;}
+.nav-links a{font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; text-decoration:none; color:var(--concrete-light); transition:color .2s;}
+.nav-links a:hover{color:var(--paper);}
+.nav-cta{display:flex; align-items:center; gap:12px;}
+.nav-user{font-family:var(--mono); font-size:.75rem; color:var(--concrete-light); display:none; align-items:center; gap:8px;}
+
+.btn{
+  font-family:var(--body); font-weight:600; font-size:.82rem; letter-spacing:.02em;
+  padding:11px 22px; border-radius:3px; border:1px solid transparent;
+  cursor:pointer; transition:all .2s var(--ease); text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+}
+.btn-brass{background:var(--brass); color:var(--ink);}
+.btn-brass:hover{background:var(--brass-light); transform:translateY(-1px);}
+.btn-outline{background:transparent; color:var(--paper); border-color:var(--panel-line);}
+.btn-outline:hover{border-color:var(--brass); color:var(--brass-light);}
+.btn-ghost{background:transparent; color:var(--concrete-light); padding:11px 14px;}
+.btn-ghost:hover{color:var(--paper);}
+.btn[disabled]{opacity:.45; cursor:not-allowed; transform:none !important;}
+.btn-sm{padding:8px 14px; font-size:.75rem;}
+.btn-danger{background:transparent; border-color:var(--p25); color:#e08e85;}
+.btn-danger:hover{background:var(--p25); color:var(--paper);}
+
+/* ============ PAGES ============ */
+.page{display:block;}
+.page[hidden]{display:none;}
+section.pane{padding:96px 0;}
+@media(max-width:640px){ section.pane{padding:64px 0;} }
+
+/* ---------- LANDING: HERO ---------- */
+.hero{position:relative; padding:100px 0 70px; overflow:hidden; border-bottom:1px solid var(--panel-line);}
+.hero .wrap{position:relative; z-index:2;}
+.eyebrow-line{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; color:var(--brass-light); text-transform:uppercase; margin-bottom:22px; display:flex; align-items:center; gap:10px;}
+.eyebrow-line::before{content:''; width:26px; height:1px; background:var(--brass);}
+.hero h1{font-size:clamp(2.5rem, 6vw, 4.6rem); line-height:1.02; font-weight:700; max-width:900px; color:var(--paper);}
+.hero h1 em{font-style:normal; color:var(--brass-light);}
+.hero .sub{max-width:520px; margin-top:26px; font-size:1.05rem; color:var(--concrete-light);}
+.hero .cta-row{margin-top:38px; display:flex; gap:14px; flex-wrap:wrap;}
+
+/* barbell load animation */
+.barbell{margin-top:72px; display:flex; align-items:center; justify-content:center; gap:0; user-select:none;}
+.bb-plates{display:flex; align-items:center; gap:3px;}
+.bb-plates.left{flex-direction:row-reverse;}
+.bb-plate{
+  border-radius:3px; background:var(--steel); opacity:0; transform:translateX(var(--fromX,-40px)); transition:opacity .5s var(--ease), transform .5s var(--ease); transition-delay:calc(var(--i,0)*110ms);
+}
+.barbell.is-in .bb-plate{opacity:1; transform:none;}
+.bb-plate.p25{width:16px; height:78px; background:var(--p25);}
+.bb-plate.p20{width:14px; height:66px; background:var(--p20);}
+.bb-plate.p15{width:12px; height:54px; background:var(--p15);}
+.bb-plate.p10{width:10px; height:42px; background:var(--p10);}
+.bb-plates.right .bb-plate{--fromX:40px;}
+.bb-bar{width:min(38vw,340px); height:6px; background:linear-gradient(180deg,#5a5f5c,#2b2f2d); border-radius:3px; margin:0 -2px;}
+
+.hero-stat{margin-top:28px; text-align:center; font-family:var(--mono); font-size:.78rem; letter-spacing:.05em; color:var(--concrete-light);}
+.hero-stat strong{color:var(--paper); font-size:.95rem;}
+
+/* ---------- SECTION HEADERS ---------- */
+.sec-head{max-width:640px; margin-bottom:52px;}
+.sec-head .eyebrow-line{margin-bottom:14px;}
+.sec-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem); color:var(--paper);}
+.sec-head p{margin-top:16px; color:var(--concrete-light); font-size:1rem;}
+
+/* ---------- PROGRAM CARDS ---------- */
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+@media(max-width:880px){ .grid-3{grid-template-columns:1fr;} }
+.card{
+  background:var(--panel); border:1px solid var(--panel-line); border-radius:6px; padding:32px 26px;
+  transition:border-color .25s, transform .25s;
+}
+.card:hover{border-color:var(--brass); transform:translateY(-3px);}
+.card .num{font-family:var(--mono); color:var(--brass-light); font-size:.78rem; letter-spacing:.06em;}
+.card h3{margin-top:16px; font-size:1.25rem; color:var(--paper);}
+.card p{margin-top:12px; color:var(--concrete-light); font-size:.92rem;}
+
+/* ---------- TIERS (loyalty scale) ---------- */
+.tier-rail{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+@media(max-width:880px){ .tier-rail{grid-template-columns:1fr 1fr;} }
+@media(max-width:520px){ .tier-rail{grid-template-columns:1fr;} }
+.tier-card{background:var(--panel); border:1px solid var(--panel-line); border-radius:6px; padding:26px 22px; position:relative; overflow:hidden;}
+.tier-card::before{content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--tier-color);}
+.tier-plate{width:30px; height:30px; border-radius:50%; background:var(--tier-color); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:.68rem; color:var(--ink); font-weight:600;}
+.tier-card h3{margin-top:16px; font-size:1.05rem; color:var(--paper);}
+.tier-card .tw{font-family:var(--mono); font-size:.72rem; color:var(--concrete); margin-top:4px; text-transform:uppercase; letter-spacing:.06em;}
+.tier-card p{margin-top:12px; font-size:.86rem; color:var(--concrete-light);}
+
+/* ---------- CTA BAND ---------- */
+.cta-band{background:var(--panel); border-top:1px solid var(--panel-line); border-bottom:1px solid var(--panel-line); text-align:center;}
+.cta-band h2{font-size:clamp(1.8rem,4vw,2.8rem); max-width:640px; margin:0 auto;}
+.cta-band p{margin-top:16px; color:var(--concrete-light);}
+.cta-band .cta-row{justify-content:center; margin-top:30px;}
+
+/* ---------- FOOTER ---------- */
+footer{padding:44px 0; border-top:1px solid var(--panel-line);}
+.foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+.foot-row .logo{font-size:1rem;}
+footer .meta{font-family:var(--mono); font-size:.72rem; color:var(--concrete); letter-spacing:.04em;}
+
+/* ============ FORM ELEMENTS ============ */
+.field{margin-bottom:20px;}
+.field label{display:block; font-size:.76rem; text-transform:uppercase; letter-spacing:.07em; color:var(--concrete-light); margin-bottom:8px;}
+.field input, .field select, .field textarea{
+  width:100%; background:var(--ink-soft); border:1px solid var(--panel-line); border-radius:4px;
+  padding:13px 14px; color:var(--paper); font-family:var(--body); font-size:.95rem; transition:border-color .2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--brass); outline:none;}
+.field textarea{resize:vertical; min-height:88px;}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media(max-width:560px){ .field-row{grid-template-columns:1fr;} }
+.form-note{font-size:.78rem; color:var(--concrete); margin-top:-6px; margin-bottom:22px;}
+.err-text{color:#e08e85; font-size:.78rem; margin-top:6px; display:none;}
+.field.has-error input, .field.has-error select{border-color:#a33d34;}
+.field.has-error .err-text{display:block;}
+
+/* ============ AUTH PAGES (signup / approval) ============ */
+.auth-shell{min-height:calc(100vh - 68px); display:flex; align-items:center; padding:60px 0;}
+.auth-box{max-width:520px; margin:0 auto; width:100%;}
+.auth-box .eyebrow-line{justify-content:center;}
+.auth-box h1{font-size:2.1rem; text-align:center; margin-bottom:8px;}
+.auth-box .sub{text-align:center; color:var(--concrete-light); margin-bottom:40px; font-size:.95rem;}
+.auth-panel{background:var(--panel); border:1px solid var(--panel-line); border-radius:8px; padding:36px 32px;}
+.auth-foot{text-align:center; margin-top:22px; font-size:.85rem; color:var(--concrete-light);}
+.auth-foot button.link{background:none; border:none; color:var(--brass-light); text-decoration:underline; padding:0; font-size:inherit;}
+
+/* ---------- LOYALTY APPROVAL TRACKER ---------- */
+.tracker{list-style:none; margin:0 0 36px; padding:0; display:flex; flex-direction:column; gap:0;}
+.tracker li{display:flex; gap:16px; position:relative; padding-bottom:30px;}
+.tracker li:last-child{padding-bottom:0;}
+.tracker li::before{content:''; position:absolute; left:11px; top:26px; bottom:0; width:1px; background:var(--panel-line);}
+.tracker li:last-child::before{display:none;}
+.t-dot{width:24px; height:24px; border-radius:50%; border:2px solid var(--panel-line); flex:none; display:flex; align-items:center; justify-content:center; background:var(--ink-soft); transition:all .35s var(--ease);}
+.t-dot svg{width:12px; height:12px; opacity:0; transition:opacity .25s;}
+.t-body h4{font-family:var(--body); font-weight:600; font-size:.95rem; color:var(--concrete-light); text-transform:none; letter-spacing:0; transition:color .3s;}
+.t-body p{font-size:.8rem; color:var(--concrete); margin-top:3px; font-family:var(--mono);}
+.tracker li.done .t-dot{border-color:var(--brass); background:var(--brass);}
+.tracker li.done .t-dot svg{opacity:1;}
+.tracker li.done .t-body h4{color:var(--paper);}
+.tracker li.active .t-dot{border-color:var(--brass-light); box-shadow:0 0 0 4px rgba(192,138,62,.18);}
+.tracker li.active .t-body h4{color:var(--paper);}
+
+.approved-badge{display:none; text-align:center; padding-top:6px;}
+.approved-badge.show{display:block;}
+
+/* ============ PLATE STACK / LOAD BAR (signature data element) ============ */
+.plate-stack{display:flex; align-items:flex-end; gap:4px; height:44px;}
+.plate-stack .pl{width:11px; border-radius:2px 2px 1px 1px; transition:height .5s var(--ease);}
+.load-bar{position:relative; height:9px; background:var(--panel-line); border-radius:5px; overflow:visible;}
+.load-bar .fill{position:absolute; left:0; top:0; bottom:0; border-radius:5px; background:linear-gradient(90deg,var(--p10),var(--p15) 40%,var(--p20) 70%,var(--p25)); transition:width .7s var(--ease);}
+.load-bar .fill::after{content:''; position:absolute; right:-3px; top:50%; transform:translateY(-50%); width:9px; height:20px; background:inherit; border-radius:2px;}
+
+/* ============ APP SHELL (dashboards) ============ */
+.app-shell{display:grid; grid-template-columns:230px 1fr; min-height:calc(100vh - 68px);}
+@media(max-width:820px){ .app-shell{grid-template-columns:1fr;} }
+.side{border-right:1px solid var(--panel-line); padding:30px 20px; background:var(--ink-soft);}
+@media(max-width:820px){ .side{border-right:none; border-bottom:1px solid var(--panel-line); display:flex; align-items:center; justify-content:space-between; padding:16px 20px;} }
+.side-profile{display:flex; align-items:center; gap:12px; margin-bottom:30px;}
+@media(max-width:820px){ .side-profile{margin-bottom:0;} }
+.avatar{width:40px; height:40px; border-radius:50%; background:var(--brass); color:var(--ink); font-family:var(--mono); font-weight:600; display:flex; align-items:center; justify-content:center; font-size:.85rem; flex:none;}
+.side-profile .name{font-size:.9rem; font-weight:600; color:var(--paper);}
+.side-profile .role{font-family:var(--mono); font-size:.7rem; color:var(--concrete); text-transform:uppercase; letter-spacing:.05em;}
+.side-nav{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px;}
+@media(max-width:820px){ .side-nav{flex-direction:row; gap:6px;} }
+.side-nav button{
+  width:100%; text-align:left; background:none; border:none; color:var(--concrete-light);
+  padding:11px 12px; border-radius:4px; font-size:.86rem; display:flex; align-items:center; gap:10px; transition:all .18s;
+}
+.side-nav button:hover{background:var(--panel); color:var(--paper);}
+.side-nav button.active{background:var(--panel); color:var(--paper); box-shadow:inset 3px 0 0 var(--brass);}
+@media(max-width:820px){ .side-nav button{padding:8px 10px; font-size:.78rem;} .side-nav button span.lbl{display:none;} }
+.side-nav .dot{width:6px; height:6px; border-radius:50%; background:var(--panel-line); flex:none;}
+.side-foot{margin-top:auto; padding-top:24px;}
+@media(max-width:820px){ .side-foot{display:none;} }
+
+.main-col{padding:36px 40px; overflow:hidden;}
+@media(max-width:640px){ .main-col{padding:26px 20px;} }
+.dash-head{display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:32px; flex-wrap:wrap; gap:16px;}
+.dash-head h1{font-size:1.9rem;}
+.dash-head .sub{color:var(--concrete-light); margin-top:6px; font-size:.9rem;}
+
+.stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:38px;}
+@media(max-width:920px){ .stat-grid{grid-template-columns:1fr 1fr;} }
+@media(max-width:480px){ .stat-grid{grid-template-columns:1fr;} }
+.stat-card{background:var(--panel); border:1px solid var(--panel-line); border-radius:6px; padding:20px 20px;}
+.stat-card .k{font-family:var(--mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--concrete);}
+.stat-card .v{font-family:var(--display); font-size:1.9rem; color:var(--paper); margin-top:8px;}
+.stat-card .d{font-family:var(--mono); font-size:.72rem; color:var(--brass-light); margin-top:6px;}
+
+.panel{background:var(--panel); border:1px solid var(--panel-line); border-radius:6px; padding:26px 24px; margin-bottom:24px;}
+.panel-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+.panel-head h2{font-size:1.05rem; text-transform:none; font-family:var(--body); font-weight:600; letter-spacing:0; color:var(--paper);}
+.panel-head .tag{font-family:var(--mono); font-size:.7rem; color:var(--concrete);}
+
+.list-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0; border-top:1px solid var(--panel-line);}
+.list-row:first-of-type{border-top:none;}
+.lr-main{display:flex; align-items:center; gap:14px; min-width:0;}
+.lr-main .t{font-size:.9rem; color:var(--paper); font-weight:500;}
+.lr-main .m{font-family:var(--mono); font-size:.75rem; color:var(--concrete); margin-top:2px;}
+
+.two-col{display:grid; grid-template-columns:1.3fr 1fr; gap:24px;}
+@media(max-width:920px){ .two-col{grid-template-columns:1fr;} }
+
+.badge{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:.7rem; padding:5px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:.05em;}
+.badge .dot{width:7px; height:7px; border-radius:50%;}
+.badge-open{background:rgba(192,138,62,.12); color:var(--brass-light);}
+.badge-full{background:rgba(140,133,119,.12); color:var(--concrete-light);}
+.badge-pending{background:rgba(224,194,58,.12); color:var(--p15);}
+
+table{width:100%; border-collapse:collapse;}
+th{text-align:left; font-family:var(--mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--concrete); padding:0 12px 12px; font-weight:500;}
+td{padding:14px 12px; border-top:1px solid var(--panel-line); font-size:.87rem; vertical-align:middle;}
+tr:first-child td{border-top:none;}
+.tbl-wrap{overflow-x:auto;}
+.empty-state{text-align:center; padding:34px 10px; color:var(--concrete);}
+.empty-state p{font-size:.85rem; margin-top:6px;}
+
+/* ---------- LEADERBOARD ---------- */
+.lb-row{display:grid; grid-template-columns:44px 1fr 140px 90px; align-items:center; gap:16px; padding:16px 4px; border-top:1px solid var(--panel-line);}
+.lb-row:first-child{border-top:none;}
+@media(max-width:640px){ .lb-row{grid-template-columns:32px 1fr 80px; } .lb-row .lb-load-bar-cell{display:none;} }
+.lb-rank{font-family:var(--display); font-size:1.2rem; color:var(--concrete-light);}
+.lb-row.top .lb-rank{color:var(--brass-light);}
+.lb-who{display:flex; align-items:center; gap:12px; min-width:0;}
+.lb-who .avatar{width:34px; height:34px; font-size:.72rem;}
+.lb-name{font-size:.92rem; color:var(--paper); font-weight:500;}
+.lb-name .you{color:var(--brass-light); font-family:var(--mono); font-size:.68rem; margin-left:6px;}
+.lb-tier{font-family:var(--mono); font-size:.68rem; color:var(--concrete); text-transform:uppercase; margin-top:2px;}
+.lb-score{font-family:var(--mono); font-size:.85rem; color:var(--paper); text-align:right;}
+.lb-filter{display:flex; gap:8px; margin-bottom:24px;}
+.lb-filter button{background:var(--panel); border:1px solid var(--panel-line); color:var(--concrete-light); padding:9px 16px; border-radius:20px; font-size:.78rem;}
+.lb-filter button.active{background:var(--brass); border-color:var(--brass); color:var(--ink);}
+
+/* ============ LOGIN SLIDE-OVER ============ */
+.scrim{position:fixed; inset:0; background:rgba(10,10,8,.6); z-index:60; opacity:0; transition:opacity .3s;}
+.scrim.show{opacity:1;}
+.login-panel{
+  position:fixed; top:0; right:0; bottom:0; width:min(420px,92vw); background:var(--panel);
+  border-left:1px solid var(--panel-line); z-index:61; padding:34px 30px;
+  transform:translateX(100%); transition:transform .38s var(--ease); overflow-y:auto;
+}
+.login-panel.show{transform:translateX(0);}
+.login-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:30px;}
+.login-head h2{font-size:1.3rem; text-transform:none; font-family:var(--display); letter-spacing:0;}
+.close-x{background:none; border:none; color:var(--concrete-light); font-size:1.4rem; line-height:1; padding:4px 8px;}
+.close-x:hover{color:var(--paper);}
+.login-msg{font-size:.82rem; padding:12px 14px; border-radius:4px; margin-bottom:18px; display:none; font-family:var(--mono);}
+.login-msg.show{display:block;}
+.login-msg.err{background:rgba(178,59,48,.15); color:#e08e85;}
+.login-msg.ok{background:rgba(79,138,83,.15); color:#8fd192;}
+
+/* ============ PREVIEW NAV (dev tool — see EDIT note) ============ */
+/* EDIT: this floating panel exists so every screen is reachable without
+   redoing the real flow each time. Delete the whole .preview-nav block
+   (CSS + HTML + its JS listeners) before shipping to production. */
+.preview-nav{
+  position:fixed; bottom:18px; right:18px; z-index:70; background:rgba(20,19,15,.95);
+  border:1px dashed var(--brass); border-radius:8px; padding:12px; backdrop-filter:blur(6px);
+  max-width:210px;
+}
+.preview-nav .pv-label{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; color:var(--brass-light); text-transform:uppercase; margin-bottom:8px; display:block;}
+.preview-nav .pv-grid{display:grid; grid-template-columns:1fr 1fr; gap:6px;}
+.preview-nav button{background:var(--ink-soft); border:1px solid var(--panel-line); color:var(--concrete-light); font-size:.68rem; padding:7px 6px; border-radius:4px;}
+.preview-nav button:hover{border-color:var(--brass); color:var(--paper);}
+.preview-nav button.current{border-color:var(--brass); color:var(--brass-light);}
+.preview-nav .pv-toggle{position:absolute; top:-14px; right:-10px; width:26px; height:26px; border-radius:50%; background:var(--brass); color:var(--ink); border:none; font-size:.8rem;}
+.preview-nav.collapsed .pv-label, .preview-nav.collapsed .pv-grid{display:none;}
+
+</style>
+</head>
+<body>
+
+<!-- ============ TOP NAV ============ -->
+<nav class="topnav">
+  <a href="#" class="logo" data-goto="landing"><span class="bar"></span>IRON HOUR</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" data-goto="landing" data-scroll="programs">Programs</a></li>
+    <li><a href="#" data-goto="landing" data-scroll="membership">Membership</a></li>
+    <li><a href="#" data-goto="leaderboard">Leaderboard</a></li>
+  </ul>
+  <div class="nav-cta">
+    <span class="nav-user" id="navUser"></span>
+    <button class="btn btn-outline" id="navLoginBtn">Log in</button>
+    <button class="btn btn-brass" id="navApplyBtn" data-goto="signup">Apply now</button>
+  </div>
+</nav>
+
+<main id="app">
+
+  <!-- ============ LANDING ============ -->
+  <section class="page" id="page-landing" data-page="landing">
+
+    <div class="hero">
+      <div class="wrap">
+        <div class="eyebrow-line">Strength &amp; conditioning club — est. floor rules apply</div>
+        <h1>Train where the bar<br>gets loaded, <em>not lightened.</em></h1>
+        <p class="sub">IRON HOUR is a members-only strength club built around one idea: progress is measured in kilograms on the bar, not check-ins on an app. Apply, get approved by the coaching staff, and start loading.</p>
+        <div class="cta-row">
+          <button class="btn btn-brass" data-goto="signup">Apply for membership</button>
+          <button class="btn btn-outline" data-scroll="programs">See the programs</button>
+        </div>
+      </div>
+
+      <div class="barbell" id="heroBarbell">
+        <div class="bb-plates left">
+          <div class="bb-plate p10" style="--i:3"></div>
+          <div class="bb-plate p15" style="--i:2"></div>
+          <div class="bb-plate p20" style="--i:1"></div>
+          <div class="bb-plate p25" style="--i:0"></div>
+        </div>
+        <div class="bb-bar"></div>
+        <div class="bb-plates right">
+          <div class="bb-plate p25" style="--i:0"></div>
+          <div class="bb-plate p20" style="--i:1"></div>
+          <div class="bb-plate p15" style="--i:2"></div>
+          <div class="bb-plate p10" style="--i:3"></div>
+        </div>
+      </div>
+      <p class="hero-stat"><strong>486,200 kg</strong> lifted by the floor this month</p>
+    </div>
+
+    <section class="pane" id="programs">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div class="eyebrow-line">The floor</div>
+          <h2>Three ways to train, one standard</h2>
+          <p>Every program runs on the same principle: track the load, respect the recovery, keep showing up.</p>
+        </div>
+        <div class="grid-3">
+          <div class="card reveal" style="--i:0">
+            <div class="num">STR</div>
+            <h3>Strength Systems</h3>
+            <p>Squat, bench, deadlift, press — periodized in 6-week blocks with a coach reviewing your numbers every session.</p>
+          </div>
+          <div class="card reveal" style="--i:1">
+            <div class="num">CON</div>
+            <h3>Metabolic Conditioning</h3>
+            <p>Barbell complexes, sled work, and interval pieces built to raise your work capacity without wrecking next week's lifts.</p>
+          </div>
+          <div class="card reveal" style="--i:2">
+            <div class="num">REC</div>
+            <h3>Mobility &amp; Recovery</h3>
+            <p>Guided mobility sessions, soft-tissue work, and load-management check-ins so the floor doesn't wear you down.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pane" id="membership" style="border-top:1px solid var(--panel-line);">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div class="eyebrow-line">Loyalty program</div>
+          <h2>Your tier is named after the plate you're loading</h2>
+          <p>Standing in the club is earned on the floor, not paid for at the front desk. Every tier is named for the real plate color it takes to get there.</p>
+        </div>
+        <div class="tier-rail">
+          <div class="tier-card reveal" style="--tier-color:var(--p10); --i:0">
+            <div class="tier-plate">10</div>
+            <h3>Starting Strength</h3>
+            <div class="tw">Green plate</div>
+            <p>Full floor access, open programming, and the daily class schedule.</p>
+          </div>
+          <div class="tier-card reveal" style="--tier-color:var(--p15); --i:1">
+            <div class="tier-plate">15</div>
+            <h3>Progressive Load</h3>
+            <div class="tw">Yellow plate</div>
+            <p>Priority class booking and a monthly one-on-one form check.</p>
+          </div>
+          <div class="tier-card reveal" style="--tier-color:var(--p20); --i:2">
+            <div class="tier-plate">20</div>
+            <h3>Full Send</h3>
+            <div class="tw">Blue plate</div>
+            <p>Two guest passes a month and access to the recovery suite.</p>
+          </div>
+          <div class="tier-card reveal" style="--tier-color:var(--p25); --i:3">
+            <div class="tier-plate">25</div>
+            <h3>Iron Elite</h3>
+            <div class="tw">Red plate</div>
+            <p>Quarterly programming review sessions directly with the head coach.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band pane">
+      <div class="wrap">
+        <h2 class="reveal">Ready to load in?</h2>
+        <p class="reveal" style="--i:1">Applications go to the coaching staff for review — most are answered within one business day.</p>
+        <div class="cta-row reveal" style="--i:2">
+          <button class="btn btn-brass" data-goto="signup">Start your application</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap foot-row">
+        <a href="#" class="logo" data-goto="landing"><span class="bar"></span>IRON HOUR</a>
+        <span class="meta">204 Foundry Row · Open 05:00–22:00 · Floor rules posted at the door</span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============ SIGN UP ============ -->
+  <section class="page" id="page-signup" data-page="signup" hidden>
+    <div class="auth-shell">
+      <div class="wrap">
+        <div class="auth-box">
+          <div class="eyebrow-line">Membership application</div>
+          <h1>Apply to train here</h1>
+          <p class="sub">Tell the coaching staff who you are and what you're training for. They review every application by hand.</p>
+          <div class="auth-panel">
+            <form id="signupForm" novalidate>
+              <div class="field-row">
+                <div class="field" id="f-name">
+                  <label for="su-name">Full name</label>
+                  <input type="text" id="su-name" placeholder="Jordan Alvarez" autocomplete="name">
+                  <div class="err-text">Enter your name.</div>
+                </div>
+                <div class="field" id="f-email">
+                  <label for="su-email">Email</label>
+                  <input type="email" id="su-email" placeholder="you@email.com" autocomplete="email">
+                  <div class="err-text">Enter a valid email.</div>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field" id="f-phone">
+                  <label for="su-phone">Phone</label>
+                  <input type="tel" id="su-phone" placeholder="(555) 010-0000" autocomplete="tel">
+                  <div class="err-text">Enter a phone number.</div>
+                </div>
+                <div class="field">
+                  <label for="su-goal">Training goal</label>
+                  <select id="su-goal">
+                    <option>Build raw strength</option>
+                    <option>Competition prep</option>
+                    <option>General conditioning</option>
+                    <option>Return from injury</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="su-note">Anything the coaches should know?</label>
+                <textarea id="su-note" placeholder="Training history, current numbers, schedule constraints..."></textarea>
+              </div>
+              <p class="form-note">By applying you agree to a short intake call before your first session on the floor.</p>
+              <button type="submit" class="btn btn-brass" style="width:100%; justify-content:center;">Submit application</button>
+            </form>
+          </div>
+          <p class="auth-foot">Already a member? <button class="link" id="signupToLogin">Log in instead</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOYALTY APPROVAL ============ -->
+  <section class="page" id="page-approval" data-page="approval" hidden>
+    <div class="auth-shell">
+      <div class="wrap">
+        <div class="auth-box">
+          <div class="eyebrow-line">Application status</div>
+          <h1 id="apprHeadline">You're in the queue</h1>
+          <p class="sub" id="apprSub">Submitted by <span id="apprName">—</span>. Most applications clear in one business day — yours is moving now.</p>
+          <div class="auth-panel">
+            <ul class="tracker" id="tracker">
+              <li class="step" data-step="1">
+                <div class="t-dot"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#14130f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="t-body">
+                  <h4>Application received</h4>
+                  <p>Logged with the front desk</p>
+                </div>
+              </li>
+              <li class="step" data-step="2">
+                <div class="t-dot"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#14130f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="t-body">
+                  <h4>Reviewed by coaching staff</h4>
+                  <p>Checking training history and goals</p>
+                </div>
+              </li>
+              <li class="step" data-step="3">
+                <div class="t-dot"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#14130f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="t-body">
+                  <h4>Approved — bar's loaded</h4>
+                  <p>Starting tier assigned</p>
+                </div>
+              </li>
+            </ul>
+            <div class="approved-badge" id="approvedBadge">
+              <div class="tier-plate" style="--tier-color:var(--p10); background:var(--p10); margin:0 auto 14px;">10</div>
+              <p style="font-size:.9rem; color:var(--concrete-light); margin-bottom:22px;">You're approved at <strong style="color:var(--paper)">Starting Strength</strong> — the green-plate tier. Your dashboard is ready.</p>
+              <button class="btn btn-brass" id="enterDashBtn" style="width:100%; justify-content:center;">Enter your dashboard</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEMBER DASHBOARD ============ -->
+  <section class="page" id="page-member" data-page="member" hidden>
+    <div class="app-shell">
+      <aside class="side">
+        <div class="side-profile">
+          <div class="avatar" id="memAvatar">—</div>
+          <div>
+            <div class="name" id="memName">—</div>
+            <div class="role">Member</div>
+          </div>
+        </div>
+        <ul class="side-nav" id="memberNav">
+          <li><button class="active" data-mtab="overview"><span class="dot"></span><span class="lbl">Overview</span></button></li>
+          <li><button data-mtab="classes"><span class="dot"></span><span class="lbl">Classes</span></button></li>
+          <li><button data-mtab="activity"><span class="dot"></span><span class="lbl">Activity log</span></button></li>
+          <li><button data-goto="leaderboard"><span class="dot"></span><span class="lbl">Leaderboard</span></button></li>
+        </ul>
+        <div class="side-foot">
+          <button class="btn btn-ghost btn-sm" id="memberLogout">Log out</button>
+        </div>
+      </aside>
+      <div class="main-col">
+        <div class="dash-head">
+          <div>
+            <h1>Welcome back, <span id="memFirstName">—</span></h1>
+            <p class="sub" id="memTierLine">Starting Strength · Green plate</p>
+          </div>
+          <button class="btn btn-outline" data-goto="leaderboard">View leaderboard</button>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card"><div class="k">Current streak</div><div class="v">6 days</div><div class="d">Longest: 14</div></div>
+          <div class="stat-card"><div class="k">Sessions this month</div><div class="v">11</div><div class="d">↑ 3 vs last month</div></div>
+          <div class="stat-card"><div class="k">Total load lifted</div><div class="v">18,420 kg</div><div class="d">This training cycle</div></div>
+          <div class="stat-card"><div class="k">Next tier</div><div class="v">62%</div><div class="d">Progressive Load</div></div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="panel">
+              <div class="panel-head"><h2>Progress toward Progressive Load</h2><span class="tag">Yellow plate</span></div>
+              <div class="load-bar"><div class="fill" style="width:62%"></div></div>
+              <p style="font-family:var(--mono); font-size:.72rem; color:var(--concrete); margin-top:14px;">6,200 kg to go · roughly 9 sessions at your current pace</p>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>This week's classes</h2><span class="tag">Foundry Row floor</span></div>
+              <div class="list-row">
+                <div class="lr-main"><div><div class="t">Strength Systems — Squat Focus</div><div class="m">Mon · 06:00 · Coach Reyes</div></div></div>
+                <button class="btn btn-outline btn-sm reserve-btn">Reserve spot</button>
+              </div>
+              <div class="list-row">
+                <div class="lr-main"><div><div class="t">Metabolic Conditioning</div><div class="m">Wed · 17:30 · Coach Diallo</div></div></div>
+                <button class="btn btn-outline btn-sm reserve-btn">Reserve spot</button>
+              </div>
+              <div class="list-row">
+                <div class="lr-main"><div><div class="t">Mobility &amp; Recovery</div><div class="m">Fri · 07:00 · Coach Reyes</div></div></div>
+                <button class="btn btn-outline btn-sm reserve-btn">Reserve spot</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel">
+              <div class="panel-head"><h2>Recent activity</h2></div>
+              <div class="list-row"><div class="lr-main"><div><div class="t">Strength Systems</div><div class="m">Yesterday · 1,340 kg moved</div></div></div></div>
+              <div class="list-row"><div class="lr-main"><div><div class="t">Metabolic Conditioning</div><div class="m">3 days ago · 22 min</div></div></div></div>
+              <div class="list-row"><div class="lr-main"><div><div class="t">Strength Systems</div><div class="m">5 days ago · 1,280 kg moved</div></div></div></div>
+              <div class="list-row"><div class="lr-main"><div><div class="t">Mobility &amp; Recovery</div><div class="m">6 days ago · 40 min</div></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GYM (STAFF) DASHBOARD ============ -->
+  <section class="page" id="page-gym" data-page="gym" hidden>
+    <div class="app-shell">
+      <aside class="side">
+        <div class="side-profile">
+          <div class="avatar" style="background:var(--steel); color:var(--paper);">CR</div>
+          <div>
+            <div class="name">Coach Reyes</div>
+            <div class="role">Staff console</div>
+          </div>
+        </div>
+        <ul class="side-nav" id="gymNav">
+          <li><button class="active" data-gtab="overview"><span class="dot"></span><span class="lbl">Overview</span></button></li>
+          <li><button data-gtab="applications"><span class="dot"></span><span class="lbl">Applications</span></button></li>
+          <li><button data-gtab="roster"><span class="dot"></span><span class="lbl">Roster</span></button></li>
+          <li><button data-goto="leaderboard"><span class="dot"></span><span class="lbl">Leaderboard</span></button></li>
+        </ul>
+        <div class="side-foot">
+          <button class="btn btn-ghost btn-sm" data-goto="landing">Exit console</button>
+        </div>
+      </aside>
+      <div class="main-col">
+        <div class="dash-head">
+          <div>
+            <h1>Staff console</h1>
+            <p class="sub">Foundry Row · today's floor</p>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card"><div class="k">On the floor now</div><div class="v">27</div><div class="d">Capacity 60</div></div>
+          <div class="stat-card"><div class="k">Active members</div><div class="v" id="gymActiveCount">184</div><div class="d">Across all tiers</div></div>
+          <div class="stat-card"><div class="k">Pending applications</div><div class="v" id="gymPendingCount">0</div><div class="d">Awaiting review</div></div>
+          <div class="stat-card"><div class="k">Classes running today</div><div class="v">6</div><div class="d">Next at 17:30</div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Pending applications</h2><span class="tag">Newest first</span></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Applicant</th><th>Goal</th><th>Submitted</th><th>Decision</th></tr></thead>
+              <tbody id="pendingTableBody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="pendingEmpty">
+            <p>No applications waiting on review right now.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Member roster</h2><span class="tag">Sample</span></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Member</th><th>Tier</th><th>Last check-in</th><th>Status</th></tr></thead>
+              <tbody id="rosterTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEADERBOARD ============ -->
+  <section class="page" id="page-leaderboard" data-page="leaderboard" hidden>
+    <div class="pane wrap" style="padding-top:56px;">
+      <div class="sec-head">
+        <div class="eyebrow-line">This training cycle</div>
+        <h2>Floor leaderboard</h2>
+        <p>Ranked by total load moved this cycle. Every bar shown is loaded the same way the plates go on in real life.</p>
+      </div>
+      <div class="lb-filter">
+        <button class="active">This month</button>
+        <button>This week</button>
+        <button>All time</button>
+      </div>
+      <div class="panel" style="padding:8px 20px 20px;">
+        <div id="leaderboardList"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ LOGIN SLIDE-OVER ============ -->
+<div class="scrim" id="scrim"></div>
+<div class="login-panel" id="loginPanel" aria-hidden="true">
+  <div class="login-head">
+    <h2>Member log in</h2>
+    <button class="close-x" id="closeLogin" aria-label="Close">&times;</button>
+  </div>
+  <div class="login-msg" id="loginMsg"></div>
+  <form id="loginForm">
+    <div class="field">
+      <label for="li-email">Email</label>
+      <input type="email" id="li-email" placeholder="you@email.com" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="li-pass">Password</label>
+      <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn btn-brass" style="width:100%; justify-content:center;">Log in</button>
+  </form>
+  <p class="auth-foot">Not a member yet? <button class="link" id="loginToSignup">Apply for membership</button></p>
+</div>
+
+<!-- ============ PREVIEW NAV (remove before shipping — see CSS EDIT note) ============ -->
+<div class="preview-nav" id="previewNav">
+  <button class="pv-toggle" id="pvToggle">≡</button>
+  <span class="pv-label">Preview nav</span>
+  <div class="pv-grid">
+    <button data-goto="landing">Landing</button>
+    <button data-openlogin="1">Login</button>
+    <button data-goto="signup">Sign up</button>
+    <button data-goto="approval">Approval</button>
+    <button data-goto="member">Member</button>
+    <button data-goto="gym">Gym</button>
+    <button data-goto="leaderboard">Board</button>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  /* ============ STATE ============ */
+  const state = {
+    applicant: null,      // {name, email, phone, goal, note}
+    member: null,          // set once approved: {name, email, tier}
+    pendingApps: [],       // [{id,name,goal,submittedLabel}]
+    approvalTimer: null
+  };
+
+  const seedRoster = [
+    {name:'Priya Nandan', tier:'Iron Elite', tc:'p25', last:'Today, 06:40', status:'active'},
+    {name:'Marcus Webb', tier:'Full Send', tc:'p20', last:'Today, 05:15', status:'active'},
+    {name:'Sofia Reyes', tier:'Progressive Load', tc:'p15', last:'Yesterday', status:'active'},
+    {name:'Diego Alarcon', tier:'Starting Strength', tc:'p10', last:'2 days ago', status:'active'},
+    {name:'Han Mizuki', tier:'Full Send', tc:'p20', last:'Today, 06:00', status:'active'}
+  ];
+
+  const seedLeaderboard = [
+    {name:'Priya Nandan', tier:'Iron Elite', tc:'p25', score:42800},
+    {name:'Han Mizuki', tier:'Full Send', tc:'p20', score:38650},
+    {name:'Marcus Webb', tier:'Full Send', tc:'p20', score:35120},
+    {name:'Sofia Reyes', tier:'Progressive Load', tc:'p15', score:29040},
+    {name:'Ade Okafor', tier:'Progressive Load', tc:'p15', score:24310},
+    {name:'Diego Alarcon', tier:'Starting Strength', tc:'p10', score:19870},
+    {name:'Lena Brandt', tier:'Starting Strength', tc:'p10', score:15230}
+  ];
+
+  const tierMeta = {
+    'Starting Strength': {short:'10 · Green', color:'var(--p10)'},
+    'Progressive Load': {short:'15 · Yellow', color:'var(--p15)'},
+    'Full Send': {short:'20 · Blue', color:'var(--p20)'},
+    'Iron Elite': {short:'25 · Red', color:'var(--p25)'}
+  };
+
+  function initials(name){
+    return name.trim().split(/\s+/).slice(0,2).map(w=>w[0]?.toUpperCase()||'').join('');
+  }
+
+  /* ============ ROUTER ============ */
+  const pages = document.querySelectorAll('.page');
+  function showPage(id){
+    pages.forEach(p => p.hidden = (p.dataset.page !== id));
+    window.scrollTo({top:0, behavior:'reduce-motion' in document.documentElement.style ? 'auto':'smooth'});
+    updateNavForPage(id);
+    triggerReveals();
+    document.querySelectorAll('.preview-nav button[data-goto]').forEach(b=>{
+      b.classList.toggle('current', b.dataset.goto === id);
+    });
+    if(id === 'gym') renderGym();
+    if(id === 'leaderboard') renderLeaderboard();
+    if(id === 'member') renderMember();
+  }
+
+  function updateNavForPage(id){
+    const navUser = document.getElementById('navUser');
+    const applyBtn = document.getElementById('navApplyBtn');
+    const loginBtn = document.getElementById('navLoginBtn');
+    if(state.member){
+      navUser.style.display = 'inline-flex';
+      navUser.textContent = state.member.name.split(' ')[0].toUpperCase() + ' · ' + tierMeta[state.member.tier].short;
+      loginBtn.style.display = 'none';
+      applyBtn.textContent = 'My dashboard';
+      applyBtn.dataset.goto = 'member';
+    } else {
+      navUser.style.display = 'none';
+      loginBtn.style.display = 'inline-flex';
+      applyBtn.textContent = 'Apply now';
+      applyBtn.dataset.goto = 'signup';
+    }
+  }
+
+  document.body.addEventListener('click', function(e){
+    const gotoBtn = e.target.closest('[data-goto]');
+    if(gotoBtn){
+      e.preventDefault();
+      showPage(gotoBtn.dataset.goto);
+      if(gotoBtn.dataset.scroll){
+        setTimeout(()=>{
+          document.getElementById(gotoBtn.dataset.scroll)?.scrollIntoView({behavior:'smooth'});
+        }, 60);
+      }
+      return;
+    }
+    const scrollBtn = e.target.closest('[data-scroll]:not([data-goto])');
+    if(scrollBtn){
+      e.preventDefault();
+      document.getElementById(scrollBtn.dataset.scroll)?.scrollIntoView({behavior:'smooth'});
+    }
+  });
+
+  /* ============ REVEAL ON SCROLL ============ */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('is-in'); io.unobserve(en.target); } });
+  }, {threshold:.15});
+  function triggerReveals(){
+    document.querySelectorAll('.reveal:not(.is-in)').forEach(el => io.observe(el));
+  }
+
+  /* hero barbell load-in */
+  window.addEventListener('load', ()=>{
+    requestAnimationFrame(()=> document.getElementById('heroBarbell').classList.add('is-in'));
+  });
+
+  /* ============ LOGIN PANEL ============ */
+  const loginPanel = document.getElementById('loginPanel');
+  const scrim = document.getElementById('scrim');
+  function openLogin(){
+    loginPanel.classList.add('show'); scrim.classList.add('show');
+    loginPanel.setAttribute('aria-hidden','false');
+    document.getElementById('loginMsg').classList.remove('show');
+  }
+  function closeLogin(){
+    loginPanel.classList.remove('show'); scrim.classList.remove('show');
+    loginPanel.setAttribute('aria-hidden','true');
+  }
+  document.getElementById('navLoginBtn').addEventListener('click', openLogin);
+  document.getElementById('closeLogin').addEventListener('click', closeLogin);
+  scrim.addEventListener('click', closeLogin);
+  document.getElementById('loginToSignup').addEventListener('click', ()=>{ closeLogin(); showPage('signup'); });
+  document.getElementById('signupToLogin').addEventListener('click', openLogin);
+  document.body.addEventListener('click', e=>{
+    if(e.target.closest('[data-openlogin]')) openLogin();
+  });
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('li-email').value.trim();
+    const pass = document.getElementById('li-pass').value;
+    const msg = document.getElementById('loginMsg');
+    msg.classList.remove('ok','err');
+    if(!email || !pass){
+      msg.textContent = 'Enter your email and password.';
+      msg.classList.add('show','err');
+      return;
+    }
+    if(state.member && state.member.email.toLowerCase() === email.toLowerCase()){
+      msg.textContent = 'Welcome back — redirecting to your dashboard.';
+      msg.classList.add('show','ok');
+      setTimeout(()=>{ closeLogin(); showPage('member'); }, 500);
+    } else {
+      msg.textContent = 'No approved membership found for that email yet. Apply below.';
+      msg.classList.add('show','err');
+    }
+  });
+
+  /* ============ SIGN UP ============ */
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('su-name').value.trim();
+    const email = document.getElementById('su-email').value.trim();
+    const phone = document.getElementById('su-phone').value.trim();
+    const goal = document.getElementById('su-goal').value;
+    const note = document.getElementById('su-note').value.trim();
+
+    let ok = true;
+    const setErr = (id, bad) => {
+      document.getElementById(id).classList.toggle('has-error', bad);
+      if(bad) ok = false;
+    };
+    setErr('f-name', !name);
+    setErr('f-email', !/^\S+@\S+\.\S+$/.test(email));
+    setErr('f-phone', !phone);
+    if(!ok) return;
+
+    state.applicant = {name, email, phone, goal, note};
+    state.pendingApps.unshift({
+      id: Date.now(),
+      name, goal,
+      submittedLabel: 'Just now'
+    });
+
+    document.getElementById('apprName').textContent = name;
+    startApprovalFlow();
+    showPage('approval');
+  });
+
+  /* ============ LOYALTY APPROVAL TRACKER ============ */
+  function startApprovalFlow(){
+    const steps = document.querySelectorAll('#tracker .step');
+    steps.forEach(s => s.classList.remove('done','active'));
+    document.getElementById('approvedBadge').classList.remove('show');
+    if(state.approvalTimer) clearTimeout(state.approvalTimer);
+
+    function setStage(n){
+      steps.forEach(s=>{
+        const step = Number(s.dataset.step);
+        s.classList.toggle('done', step < n);
+        s.classList.toggle('active', step === n);
+      });
+    }
+    setStage(1);
+    state.approvalTimer = setTimeout(()=>{
+      setStage(2);
+      state.approvalTimer = setTimeout(()=>{
+        steps.forEach(s => s.classList.add('done'));
+        steps.forEach(s => s.classList.remove('active'));
+        document.getElementById('approvedBadge').classList.add('show');
+      }, 1900);
+    }, 1600);
+  }
+
+  document.getElementById('enterDashBtn').addEventListener('click', function(){
+    if(!state.applicant) return;
+    state.member = {
+      name: state.applicant.name,
+      email: state.applicant.email,
+      tier: 'Starting Strength'
+    };
+    // remove from pending once the member has entered their dashboard
+    state.pendingApps = state.pendingApps.filter(a => a.name !== state.applicant.name);
+    updateNavForPage('member');
+    showPage('member');
+  });
+
+  document.getElementById('memberLogout').addEventListener('click', function(){
+    showPage('landing');
+  });
+
+  /* ============ MEMBER DASHBOARD ============ */
+  function renderMember(){
+    if(!state.member) return;
+    document.getElementById('memName').textContent = state.member.name;
+    document.getElementById('memFirstName').textContent = state.member.name.split(' ')[0];
+    document.getElementById('memAvatar').textContent = initials(state.member.name);
+    const tm = tierMeta[state.member.tier];
+    document.getElementById('memTierLine').textContent = state.member.tier + ' · ' + tm.short.split(' · ')[1] + ' plate';
+  }
+  document.getElementById('memberNav').addEventListener('click', function(e){
+    const btn = e.target.closest('button[data-mtab]');
+    if(!btn) return;
+    this.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+  document.body.addEventListener('click', function(e){
+    const rb = e.target.closest('.reserve-btn');
+    if(rb){
+      rb.textContent = 'Reserved';
+      rb.disabled = true;
+      rb.classList.remove('btn-outline');
+    }
+  });
+
+  /* ============ GYM (STAFF) DASHBOARD ============ */
+  document.getElementById('gymNav').addEventListener('click', function(e){
+    const btn = e.target.closest('button[data-gtab]');
+    if(!btn) return;
+    this.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+
+  function renderGym(){
+    const tbody = document.getElementById('pendingTableBody');
+    const empty = document.getElementById('pendingEmpty');
+    document.getElementById('gymPendingCount').textContent = state.pendingApps.length;
+    tbody.innerHTML = '';
+    if(state.pendingApps.length === 0){
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+      state.pendingApps.forEach(app=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${app.name}</td>
+          <td>${app.goal}</td>
+          <td style="font-family:var(--mono); font-size:.78rem; color:var(--concrete-light);">${app.submittedLabel}</td>
+          <td>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-brass btn-sm" data-approve="${app.id}">Approve</button>
+              <button class="btn btn-danger btn-sm" data-deny="${app.id}">Deny</button>
+            </div>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    const rbody = document.getElementById('rosterTableBody');
+    rbody.innerHTML = '';
+    seedRoster.forEach(m=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="display:flex; align-items:center; gap:10px;">
+          <span class="avatar" style="width:28px; height:28px; font-size:.62rem; background:${tierMeta[m.tier].color}; color:#14130f;">${initials(m.name)}</span>
+          ${m.name}
+        </td>
+        <td>${m.tier}</td>
+        <td style="font-family:var(--mono); font-size:.78rem; color:var(--concrete-light);">${m.last}</td>
+        <td><span class="badge badge-open"><span class="dot" style="background:var(--brass-light);"></span>Active</span></td>`;
+      rbody.appendChild(tr);
+    });
+    document.getElementById('gymActiveCount').textContent = seedRoster.length + 179;
+  }
+
+  document.body.addEventListener('click', function(e){
+    const appr = e.target.closest('[data-approve]');
+    const deny = e.target.closest('[data-deny]');
+    if(appr){
+      const id = Number(appr.dataset.approve);
+      const app = state.pendingApps.find(a=>a.id===id);
+      state.pendingApps = state.pendingApps.filter(a=>a.id!==id);
+      renderGym();
+      if(app && state.applicant && app.name === state.applicant.name && !state.member){
+        // staff approved the same applicant currently sitting on the approval screen
+        const steps = document.querySelectorAll('#tracker .step');
+        steps.forEach(s => s.classList.add('done'));
+        steps.forEach(s => s.classList.remove('active'));
+        document.getElementById('approvedBadge').classList.add('show');
+      }
+    }
+    if(deny){
+      const id = Number(deny.dataset.deny);
+      state.pendingApps = state.pendingApps.filter(a=>a.id!==id);
+      renderGym();
+    }
+  });
+
+  /* ============ LEADERBOARD ============ */
+  function renderLeaderboard(){
+    const rows = seedLeaderboard.slice();
+    if(state.member){
+      rows.push({name: state.member.name, tier: state.member.tier, tc: 'p10', score: 18420, you:true});
+    }
+    rows.sort((a,b)=>b.score-a.score);
+    const max = rows[0].score;
+    const wrap = document.getElementById('leaderboardList');
+    wrap.innerHTML = '';
+    rows.forEach((r,i)=>{
+      const pct = Math.max(10, Math.round((r.score/max)*100));
+      const row = document.createElement('div');
+      row.className = 'lb-row' + (i<3 ? ' top' : '');
+      row.innerHTML = `
+        <div class="lb-rank">${i+1}</div>
+        <div class="lb-who">
+          <span class="avatar" style="background:var(--${r.tc}); color:#14130f;">${initials(r.name)}</span>
+          <div>
+            <div class="lb-name">${r.name}${r.you ? '<span class="you">YOU</span>' : ''}</div>
+            <div class="lb-tier">${r.tier}</div>
+          </div>
+        </div>
+        <div class="lb-load-bar-cell"><div class="load-bar"><div class="fill" style="width:${pct}%"></div></div></div>
+        <div class="lb-score">${r.score.toLocaleString()} kg</div>`;
+      wrap.appendChild(row);
+    });
+  }
+
+  /* ============ PREVIEW NAV COLLAPSE ============ */
+  document.getElementById('pvToggle').addEventListener('click', ()=>{
+    document.getElementById('previewNav').classList.toggle('collapsed');
+  });
+
+  /* ============ INIT ============ */
+  showPage('landing');
+  triggerReveals();
+
+})();
+</script>
+</body>
+</html>
