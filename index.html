@@ -109,15 +109,7 @@ section.pane{padding:96px 0;}
 
 /* ---------- LANDING: HERO ---------- */
 .hero{
-  width: 100%;
-  min-height:100vh;
-  overflow:hidden;
-  border-bottom:1px solid var(--panel-line);
-
-  background-image:url('jnd.png');
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;}
+  ]
 .hero .wrap{position:relative; z-index:2;}
 .eyebrow-line{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; color:var(--brass-light); text-transform:uppercase; margin-bottom:22px; display:flex; align-items:center; gap:10px;}
 .eyebrow-line::before{content:''; width:26px; height:1px; background:var(--brass);}
@@ -397,7 +389,15 @@ tr:first-child td{border-top:none;}
 <main id="app">
 
   <!-- ============ LANDING ============ -->
-  <section class="page" id="page-landing" data-page="landing">
+  <section class="page" id="page-landing" data-page="landing" style="width: 100%;
+  min-height:100vh;
+  overflow:hidden;
+  border-bottom:1px solid var(--panel-line);
+
+  background-image:url('jnd.png');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;">
 
     <div class="hero">
       <div class="wrap">
