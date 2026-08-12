@@ -834,43 +834,6 @@ tr:first-child td{border-top:none;}
 
 </main>
 
-<!-- ============ LOGIN SLIDE-OVER ============ -->
-<div class="scrim" id="scrim"></div>
-<div class="login-panel" id="loginPanel" aria-hidden="true">
-  <div class="login-head">
-    <h2>Member log in</h2>
-    <button class="close-x" id="closeLogin" aria-label="Close">&times;</button>
-  </div>
-  <div class="login-msg" id="loginMsg"></div>
-  <form id="loginForm">
-    <div class="field">
-      <label for="li-email">Email</label>
-      <input type="email" id="li-email" placeholder="you@email.com" autocomplete="email">
-    </div>
-    <div class="field">
-      <label for="li-pass">Password</label>
-      <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password">
-    </div>
-    <button type="submit" class="btn btn-brass" style="width:100%; justify-content:center;">Log in</button>
-  </form>
-  <p class="auth-foot">Not a member yet? <button class="link" id="loginToSignup">Apply for membership</button></p>
-</div>
-
-<!-- ============ PREVIEW NAV (remove before shipping — see CSS EDIT note) ============ -->
-<div class="preview-nav" id="previewNav">
-  <button class="pv-toggle" id="pvToggle">≡</button>
-  <span class="pv-label">Preview nav</span>
-  <div class="pv-grid">
-    <button data-goto="landing">Landing</button>
-    <button data-openlogin="1">Login</button>
-    <button data-goto="signup">Sign up</button>
-    <button data-goto="approval">Approval</button>
-    <button data-goto="member">Member</button>
-    <button data-goto="gym">Gym</button>
-    <button data-goto="leaderboard">Board</button>
-  </div>
-</div>
-
 <script>
 (function(){
 
