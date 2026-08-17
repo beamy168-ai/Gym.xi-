@@ -349,40 +349,29 @@ tr:first-child td{border-top:none;}
   background-size:cover;
   background-position:center center;
 }
-
-/* Tablets */
-@media (max-width: 900px){
-  .hero{
-    min-height:100vh;
-    background-position:center center;
-  }
-}
-
-/* Phones */
-@media (max-width: 600px){
-  .hero{
-    min-height:100svh;
-    background-position:center center;
-    background-size:cover;
-  }
-}
-  .hero {
-    width: 100%;
-    min-height: 100vh;
-    overflow: hidden;
-
-    background: #000 url('jnd.png') center / 70% auto no-repeat;
-}
-
-@media (max-width: 900px) {
-    .hero {
-        background-size: 85% auto;
+  /* =====Laptops =====*/
+  @media (min-width: 901px) {
+    .hero 
+        background-size: min(70vw, 750px);
+        background-position: center;
     }
 }
+/* =====Tablets =====*/
+@media (max-width: 900px) {
+    .hero {
+        min-height: 100svh;
 
+        background-size: 82vw;
+        background-position: center;
+    }
+}
+/* =====Phones =====*/
 @media (max-width: 600px) {
     .hero {
-        background-size: 100% auto;
+        min-height: 100svh;
+
+        background-size: 100vw;
+        background-position: center;
     }
 }
 </style>
